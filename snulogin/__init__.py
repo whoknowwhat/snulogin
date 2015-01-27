@@ -170,6 +170,19 @@ class SSLAdapter(HTTPAdapter):
 
 
 def login(userid, password):
+    """Login to sso.snu.ac.kr.
+
+    If login process execute successfully, you will get session object with auth
+    cookies for sso.snu.ac.kr.
+
+    :param userid: userid
+    :param password: password
+
+    Example: ::
+
+        >>> sess = snulogin.login('myuserid', 'mypassword')
+        >>> r = sess.get('https://my.snu.ac.kr/')
+    """
     s = requests.Session()
     s.mount('https://', SSLAdapter(ssl.PROTOCOL_TLSv1))
 
