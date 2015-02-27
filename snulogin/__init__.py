@@ -122,6 +122,9 @@ class MyVerifiedHTTPSConnection(HTTPSConnection):
         if self.ca_certs:
             match_hostname(self.sock.getpeercert(), self.host)
 
+        self.is_verified = (self.cert_reqs == ssl.CERT_REQUIRED
+                            or self.assert_fingerprint is not None)
+
     def close(self):
         if self.sock:
             self.client_cipher = self.sock.cipher()
