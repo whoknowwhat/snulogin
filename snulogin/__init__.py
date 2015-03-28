@@ -187,10 +187,13 @@ def login(userid, password):
         >>> r = sess.get('https://my.snu.ac.kr/')
     """
     s = requests.Session()
-    s.mount('https://', SSLAdapter(ssl.PROTOCOL_TLSv1))
+    s.mount('https://', SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
-    r = s.get('http://sso.snu.ac.kr/snu/ssologin.jsp')
-    url = ('https' + r.url[4:]).replace('loginFormPage', 'idPasswordLogin')
+    r = s.get(
+        'https://sso.snu.ac.kr/snu/ssologin.jsp',
+        verify={'verify': True, 'ciphers': 'RC4-MD5'}
+    )
+    url = ('https' + r.url[5:]).replace('loginFormPage', 'idPasswordLogin')
     data = {
         'userid': userid,
         'password': password,
